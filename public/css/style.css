@@ -1,0 +1,278 @@
+/* ==================================================
+   GLOBAL LAYOUT (Sticky Footer Setup)
+================================================== */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content pushes footer down */
+.container {
+  flex: 1;
+}
+
+
+/* ==================================================
+   NAVBAR
+================================================== */
+
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+
+.fa-compass {
+  color: #fe424d;
+  font-size: 2rem;
+}
+
+.nav-link {
+  color: #222222 !important;
+}
+
+
+/* ==================================================
+   FOOTER MAIN SECTION
+================================================== */
+
+.footer {
+  background-color: #f7f7f7;
+  border-top: 1px solid #ddd;
+  padding: 3rem 2rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.footer-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid black;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.8rem;
+}
+
+.footer-item h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+}
+
+.footer-item p {
+  font-size: 0.85rem;
+  color: #717171;
+}
+
+.footer-item:hover h4 {
+  text-decoration: underline;
+}
+
+
+/* ==================================================
+   SECOND FOOTER SECTION
+================================================== */
+
+.footer-second {
+  margin-top: 3rem;
+  border-top: 1px solid #ddd;
+  padding-top: 3rem;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-col h4 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer-col a {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #222;
+}
+
+.footer-col a:hover {
+  text-decoration: underline;
+}
+
+
+/* ==================================================
+   FOOTER BOTTOM BAR
+================================================== */
+
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-left {
+  font-size: 0.9rem;
+}
+
+.footer-left a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #222;
+}
+
+.footer-left a:hover {
+  text-decoration: underline;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-right span {
+  font-size: 0.9rem;
+}
+
+.footer-right i {
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+
+/* ==================================================
+   LISTING CARDS
+================================================== */
+
+.listing-card {
+  border: none !important;
+  margin-bottom: 2rem;
+}
+
+.card-img-top {
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+.card-body {
+  padding: 0 !important;
+}
+
+.card-text p {
+  font-weight: 400 !important;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+/* Card hover effect */
+
+.card-img-overlay {
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+
+/* ==================================================
+   BUTTONS
+================================================== */
+
+.add-btn,
+.edit-btn {
+  background-color: #fe424d !important;
+  border: none !important;
+}
+
+
+/* ==================================================
+   SHOW PAGE
+================================================== */
+
+.show-img {
+  height: 30vh;
+  object-fit: cover;
+}
+
+.btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.show-card {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+/* ==================================================
+   MAP
+================================================== */
+
+#map {
+  height: 400px;
+  width: 80vh;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 768px) {
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-right {
+    justify-content: center;
+  }
+
+}

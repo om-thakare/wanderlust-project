@@ -1,0 +1,161 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Google & Facebook Icons -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+/* Light Red Gradient Background */
+body {
+  background: linear-gradient(135deg, #ffb3b3, #ff6b6b);
+  min-height: 100vh;
+}
+
+/* Center Wrapper */
+.signup-wrapper {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glass Card */
+.signup-card {
+  width: 850px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Title */
+.signup-title {
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.form-control {
+  border-radius: 30px;
+  padding: 12px 20px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border: 1px solid #ff6b6b;
+}
+
+/* Signup Button */
+.btn-signup {
+  background: #b30000;
+  color: white;
+  border-radius: 30px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  font-weight: 500;
+}
+
+.btn-signup:hover {
+  background: #800000;
+}
+
+/* Social Buttons */
+.social-btn {
+  border-radius: 30px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin-top: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.social-btn i {
+  margin-right: 8px;
+}
+
+.social-btn:hover {
+  background: #f8f8f8;
+}
+</style>
+
+<div class="container signup-wrapper">
+  <div class="signup-card">
+
+    <div class="row align-items-center">
+
+      <!-- LEFT SIDE FORM -->
+      <div class="col-md-6">
+        <h2 class="signup-title">Sign Up</h2>
+
+        <form action="/signup" method="POST">
+
+          <div class="mb-3">
+            <input type="text" name="username"
+              class="form-control"
+              placeholder="Full Name"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <input type="email" name="email"
+              class="form-control"
+              placeholder="Email Address"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <input type="password" name="password"
+              class="form-control"
+              placeholder="Password"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <input type="password"
+              class="form-control"
+              placeholder="Confirm Password"
+              required>
+          </div>
+
+          <button type="submit" class="btn-signup mt-2">
+            Sign Up
+          </button>
+
+        </form>
+      </div>
+
+      <!-- RIGHT SIDE SOCIAL -->
+      <div class="col-md-6">
+
+        <p class="text-center">
+          Already have an account?
+          <a href="/login" style="color:#b30000; font-weight:600;">
+            Log in
+          </a>
+        </p>
+
+        <hr>
+
+        <div class="social-btn">
+          <i class="fab fa-google" style="color:#db4437;"></i>
+          Sign up with Google
+        </div>
+
+        <div class="social-btn">
+          <i class="fab fa-facebook-f" style="color:#1877f2;"></i>
+          Sign up with Facebook
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
