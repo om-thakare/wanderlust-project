@@ -1,16 +1,17 @@
 <style>
-/* ================= NAVBAR BASE ================= */
 
+/* ================= NAVBAR BASE ================= */
 .navbar {
-  background: #fff;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0.8rem 1.5rem;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 1000;
 }
 
-/* Shadow appears on scroll */
 .navbar.scrolled {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 /* Logo */
@@ -19,51 +20,85 @@
   color: #ff385c;
 }
 
-/* ================= SEARCH BAR ================= */
+/* ================= FLOATING SEARCH ================= */
 
-.search-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  transition: 0.3s ease;
-}
-
-.search-form {
+.search-pill {
+  background: white;
+  border-radius: 50px;
+  padding: 6px 8px 6px 18px;
   display: flex;
   align-items: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 40px;
-  padding: 4px;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
-  width: 260px;
 }
 
-.search-form.active {
-  width: 420px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+.search-pill:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
-.search-input {
+.search-pill span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.search-circle {
+  background: #ff385c;
+  color: white;
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= SEARCH MODAL ================= */
+
+.search-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 100px;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.search-modal.active {
+  display: flex;
+}
+
+.search-box {
+  background: white;
+  width: 600px;
+  max-width: 95%;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  animation: slideDown 0.3s ease;
+}
+
+.search-box input {
+  width: 100%;
   border: none;
   outline: none;
-  box-shadow: none;
-  border-radius: 40px;
-  padding: 8px 14px;
-  width: 100%;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  padding: 12px;
 }
 
-.search-btn {
-  background-color: #ff385c;
-  color: white;
-  border-radius: 50%;
-  border: none;
-  height: 38px;
-  width: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideDown {
+  from {transform: translateY(-20px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
 }
 
 /* ================= PROFILE MENU ================= */
@@ -75,11 +110,6 @@
   padding: 5px 10px;
   border-radius: 50px;
   cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.profile-menu:hover {
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
 }
 
 .profile-avatar {
@@ -91,38 +121,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-}
-
-/* Dropdown */
-.dropdown-menu {
-  border-radius: 15px;
-  border: none;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  padding: 10px 0;
-}
-
-.dropdown-item {
-  padding: 8px 20px;
-  font-weight: 500;
 }
 
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
 
-  .search-form {
-    width: 100%;
+  .search-pill span {
+    display: none;
   }
 
-  .search-form.active {
-    width: 100%;
+  .search-pill {
+    padding: 6px;
   }
 
-  .search-wrapper {
-    margin: 10px 0;
+  .search-box {
+    width: 95%;
+    padding: 15px;
   }
+
 }
+
 </style>
 
 
@@ -134,111 +153,102 @@
       <i class="fa-regular fa-compass"></i>
     </a>
 
-    <!-- Toggle -->
-    <button class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- Center Floating Search -->
+    <div class="mx-auto">
+      <div class="search-pill" id="openSearch">
+        <span>Anywhere</span>
+        <span>|</span>
+        <span>Any week</span>
+        <span>|</span>
+        <span>Add guests</span>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-
-      <!-- Left -->
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+        <div class="search-circle">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
       </div>
+    </div>
 
-      <!-- Center Search -->
-      <div class="mx-auto search-wrapper">
-        <form class="search-form" id="searchForm" action="/listings" method="GET">
-          <input
-            class="search-input"
-            type="search"
-            name="search"
-            placeholder="Search destinations"
-            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
-          />
-          <button class="search-btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
+    <!-- Right Side -->
+    <div class="d-flex align-items-center">
 
-      <!-- Right -->
-      <div class="navbar-nav align-items-center">
+      <a class="nav-link me-3" href="/listings/new">
+        Airbnb your home
+      </a>
 
-        <a class="nav-link me-3" href="/listings/new">
-          Airbnb your home
-        </a>
-
-        <!-- Profile Dropdown -->
-        <div class="dropdown">
-
-          <div class="profile-menu" data-bs-toggle="dropdown">
-            <i class="fa-solid fa-bars"></i>
-
-            <div class="profile-avatar">
-              <% if(currentUser){ %>
-                <%= currentUser.username.charAt(0).toUpperCase() %>
-              <% } else { %>
-                <i class="fa-solid fa-user"></i>
-              <% } %>
-            </div>
-          </div>
-
-          <ul class="dropdown-menu dropdown-menu-end">
-
-            <% if(!currentUser){ %>
-              <li><a class="dropdown-item" href="/signup">Signup</a></li>
-              <li><a class="dropdown-item" href="/login">Login</a></li>
+      <div class="dropdown">
+        <div class="profile-menu" data-bs-toggle="dropdown">
+          <i class="fa-solid fa-bars"></i>
+          <div class="profile-avatar">
+            <% if(currentUser){ %>
+              <%= currentUser.username.charAt(0).toUpperCase() %>
             <% } else { %>
-              <li><span class="dropdown-item-text fw-bold">
-                Hello, <%= currentUser.username %>
-              </span></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form action="/logout" method="POST">
-                  <button class="dropdown-item">Logout</button>
-                </form>
-              </li>
+              <i class="fa-solid fa-user"></i>
             <% } %>
-
-          </ul>
+          </div>
         </div>
 
+        <ul class="dropdown-menu dropdown-menu-end">
+          <% if(!currentUser){ %>
+            <li><a class="dropdown-item" href="/signup">Signup</a></li>
+            <li><a class="dropdown-item" href="/login">Login</a></li>
+          <% } else { %>
+            <li><span class="dropdown-item-text fw-bold">
+              Hello, <%= currentUser.username %>
+            </span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form action="/logout" method="POST">
+                <button class="dropdown-item">Logout</button>
+              </form>
+            </li>
+          <% } %>
+        </ul>
       </div>
 
     </div>
+
   </div>
 </nav>
 
 
+<!-- ================= SEARCH MODAL ================= -->
+<div class="search-modal" id="searchModal">
+  <div class="search-box">
+    <form action="/listings" method="GET">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search destinations..."
+        autofocus
+      >
+    </form>
+  </div>
+</div>
+
+
 <script>
 
-/* ================= SEARCH EXPAND ================= */
-const searchForm = document.getElementById("searchForm");
-const searchInput = searchForm.querySelector("input");
+/* Open Search */
+const openSearch = document.getElementById("openSearch");
+const searchModal = document.getElementById("searchModal");
 
-searchInput.addEventListener("focus", () => {
-  searchForm.classList.add("active");
+openSearch.addEventListener("click", () => {
+  searchModal.classList.add("active");
 });
 
-searchInput.addEventListener("blur", () => {
-  if(searchInput.value === ""){
-    searchForm.classList.remove("active");
+/* Close When Clicking Outside */
+searchModal.addEventListener("click", (e) => {
+  if(e.target === searchModal){
+    searchModal.classList.remove("active");
   }
 });
 
-/* ================= NAVBAR SHADOW ON SCROLL ================= */
+/* Navbar Shadow */
 window.addEventListener("scroll", () => {
   const navbar = document.getElementById("mainNavbar");
-
-  if (window.scrollY > 10) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
+  window.scrollY > 10
+    ? navbar.classList.add("scrolled")
+    : navbar.classList.remove("scrolled");
 });
 
 </script>
