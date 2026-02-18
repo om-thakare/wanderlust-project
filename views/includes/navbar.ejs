@@ -1,14 +1,12 @@
 <style>
-
-/* ================= GLOBAL RESET ================= */
+/* ================= GLOBAL ================= */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  overflow-x: auto; /* allows scroll if screen is very small */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* ================= NAVBAR ================= */
@@ -16,41 +14,37 @@ body {
 .navbar {
   background: #fff;
   padding: 0.6rem 1rem;
-  min-height: 70px;
-  display: flex;
-  align-items: center;
+  border-bottom: 1px solid #eee;
 }
-
-/* Logo */
-.navbar-brand i {
-  font-size: 1.5rem;
-  color: #fe424d;
-}
-
-/* ================= NAVBAR LAYOUT ================= */
 
 .navbar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  gap: 20px;
+  flex-wrap: nowrap;
 }
 
-/* Left */
+/* LEFT */
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
+  white-space: nowrap;
 }
 
-/* Center Search */
+.navbar-brand i {
+  font-size: 1.6rem;
+  color: #fe424d;
+}
+
+/* CENTER */
 .search-wrapper {
   flex: 1;
   display: flex;
   justify-content: center;
+  min-width: 0;
 }
-
-/* ================= SEARCH BAR ================= */
 
 .search-form {
   display: flex;
@@ -59,9 +53,10 @@ body {
   border: 1px solid #ddd;
   border-radius: 50px;
   padding: 0.3rem;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
   transition: 0.2s ease;
-  width: 450px;
 }
 
 .search-form:hover {
@@ -72,7 +67,6 @@ body {
   border: none;
   outline: none;
   box-shadow: none;
-  border-radius: 50px;
   padding-left: 1rem;
   width: 100%;
   min-width: 0;
@@ -80,26 +74,27 @@ body {
 
 .search-btn {
   background-color: #fe424d;
-  color: #fff;
+  color: white;
+  border: none;
   border-radius: 50px;
   padding: 6px 16px;
-  border: none;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
-  font-weight: 500;
-  transition: 0.2s;
+  white-space: nowrap;
 }
 
 .search-btn:hover {
   background-color: #e63946;
 }
 
-/* Right */
+/* RIGHT */
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
+  white-space: nowrap;
 }
 
 .nav-link {
@@ -119,10 +114,34 @@ body {
   cursor: pointer;
 }
 
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .navbar-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-form {
+    max-width: 100%;
+  }
+
+  .nav-right {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+}
 </style>
 
 
-<nav class="navbar border-bottom sticky-top">
+<nav class="navbar sticky-top">
   <div class="container-fluid navbar-container">
 
     <!-- LEFT -->
@@ -130,11 +149,10 @@ body {
       <a class="navbar-brand" href="/listings">
         <i class="fa-regular fa-compass"></i>
       </a>
-
       <a class="nav-link" href="/listings">Explore</a>
     </div>
 
-    <!-- CENTER SEARCH -->
+    <!-- CENTER -->
     <div class="search-wrapper">
       <form class="search-form" action="/listings" method="GET">
         <input
@@ -144,7 +162,6 @@ body {
           placeholder="Search destinations"
           value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
         />
-
         <button class="search-btn" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
           <span>Search</span>
@@ -163,13 +180,11 @@ body {
         <a class="nav-link" href="/signup"><b>Signup</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
       <% } else { %>
-
         <form action="/logout" method="POST" class="m-0">
           <button type="submit" class="btn-link nav-link">
             <b>Logout</b>
           </button>
         </form>
-
       <% } %>
 
     </div>
