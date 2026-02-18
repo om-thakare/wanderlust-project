@@ -1,7 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-
 /* ================= GLOBAL ================= */
 * {
   box-sizing: border-box;
@@ -251,15 +250,24 @@ body {
     <!-- CENTER SEARCH -->
     <div class="search-wrapper">
       <form class="search-form" action="/listings" method="GET">
-        <input class="search-input" type="search" name="search" placeholder="Search destinations" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"/>
-        <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+        <input
+          class="search-input"
+          type="search"
+          name="search"
+          placeholder="Search destinations"
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        />
+        <button class="search-btn" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search</span>
+        </button>
       </form>
     </div>
 
     <!-- RIGHT (desktop only) -->
     <div class="nav-right">
       <a class="nav-link" href="/listings/new">Airbnb your home</a>
-      <% if(!currentUser){ %>
+      <% if(!currentUser) { %>
         <a class="nav-link" href="/signup"><b>Signup</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
       <% } else { %>
@@ -269,12 +277,12 @@ body {
       <% } %>
     </div>
 
-    <!-- MOBILE BUTTON -->
+    <!-- MOBILE MENU -->
     <div class="mobile-menu">
       <button id="mobileMenuBtn">☰ Menu</button>
-      <div class="dropdown" id="mobileDropdown">
+      <div class="dropdown" id="mobileDropdown" style="display:none;">
         <a href="/listings/new">Airbnb your home</a>
-        <% if(!currentUser){ %>
+        <% if(!currentUser) { %>
           <a href="/signup">Signup</a>
           <a href="/login">Login</a>
         <% } else { %>
@@ -288,31 +296,17 @@ body {
   </div>
 </nav>
 
-<script>
-const mobileBtn = document.getElementById("mobileMenuBtn");
-const mobileDropdown = document.getElementById("mobileDropdown");
-
-mobileBtn.addEventListener("click", () => {
-  if(mobileDropdown.style.display === "flex"){
-    mobileDropdown.style.display = "none";
-  } else {
-    mobileDropdown.style.display = "flex";
-    mobileDropdown.style.flexDirection = "column";
-  }
-});
-</script>
-
 <!-- ================= FILTER BAR ================= -->
 <div id="filters" class="mb-3">
   <% const categories = ["Trending","Rooms","Iconic cities","Mountains","Castles","Amazing Pools","Farm","Camping","Arctic","Hiking","Beach"]; %>
   <% categories.forEach(category => { %>
     <a href="/listings?category=<%= encodeURIComponent(category) %><%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
       <div class="filter <%= selectedCategory === category ? 'active-filter' : '' %>">
-        <i class="fa-solid fa-<%= category==='Trending'?'fire': category==='Rooms'?'bed': category==='Iconic cities'?'mountain-city': category==='Mountains'?'mountain': category==='Castles'?'fort-awesome': category==='Amazing Pools'?'person-swimming': category==='Farm'?'building-wheat': category==='Camping'?'tent': category==='Arctic'?'igloo': category==='Hiking'?'person-hiking':'umbrella-beach' %>"></i>
+        <i class="fa-solid fa-<%= category === 'Trending' ? 'fire' : category === 'Rooms' ? 'bed' : category === 'Iconic cities' ? 'mountain-city' : category === 'Mountains' ? 'mountain' : category === 'Castles' ? 'fort-awesome' : category === 'Amazing Pools' ? 'person-swimming' : category === 'Farm' ? 'building-wheat' : category === 'Camping' ? 'tent' : category === 'Arctic' ? 'igloo' : category === 'Hiking' ? 'person-hiking' : 'umbrella-beach' %>"></i>
         <p><%= category %></p>
       </div>
     </a>
-  <% }) %>
+  <% }); %>
 
   <div class="tax-toggle">
     <div class="form-check form-switch">
@@ -342,15 +336,29 @@ mobileBtn.addEventListener("click", () => {
         </div>
       </a>
     </div>
-  <% }) %>
+  <% }); %>
 </div>
 
 <script>
-const taxSwitch = document.getElementById("switchCheckDefault");
-taxSwitch.addEventListener("click", () => {
-  const taxInfo = document.getElementsByClassName("tax-info");
-  for(let info of taxInfo){
-    info.style.display = taxSwitch.checked ? "inline" : "none";
-  }
-});
+  // Mobile menu toggle
+  const mobileBtn = document.getElementById("mobileMenuBtn");
+  const mobileDropdown = document.getElementById("mobileDropdown");
+
+  mobileBtn.addEventListener("click", () => {
+    if (mobileDropdown.style.display === "flex") {
+      mobileDropdown.style.display = "none";
+    } else {
+      mobileDropdown.style.display = "flex";
+      mobileDropdown.style.flexDirection = "column";
+    }
+  });
+
+  // Tax toggle
+  const taxSwitch = document.getElementById("switchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    const taxInfo = document.getElementsByClassName("tax-info");
+    for (let info of taxInfo) {
+      info.style.display = taxSwitch.checked ? "inline" : "none";
+    }
+  });
 </script>
