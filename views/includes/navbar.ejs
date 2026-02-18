@@ -12,22 +12,13 @@
   color: #fe424d;
 }
 
-/* Layout Fix */
-.navbar-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* ================= SEARCH BAR ================= */
+
+.search-wrapper {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
-
-/* Explore always visible */
-.explore-link {
-  font-weight: 500;
-  margin-right: 15px;
-  white-space: nowrap;
-}
-
-/* ================= SEARCH ================= */
 
 .search-form {
   display: flex;
@@ -37,8 +28,13 @@
   border-radius: 50px;
   padding: 0.3rem;
   box-shadow: 0 1px 5px rgba(0,0,0,0.08);
-  max-width: 500px;
-  width: 100%;
+  transition: 0.2s ease;
+  width: 450px;
+  max-width: 100%;
+}
+
+.search-form:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
 .search-input {
@@ -48,97 +44,127 @@
   border-radius: 50px;
   padding-left: 1rem;
   width: 100%;
+  min-width: 0;
 }
 
+.search-input:focus {
+  box-shadow: none;
+}
+
+/* Search Button */
 .search-btn {
   background-color: #fe424d;
   color: #fff;
   border-radius: 50px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border: none;
   display: flex;
   align-items: center;
   gap: 6px;
   font-weight: 500;
+  transition: 0.2s;
 }
 
 .search-btn:hover {
   background-color: #e63946;
-  color: #fff;
 }
 
 /* Right links */
-.right-links {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.navbar-nav .nav-link {
+  font-weight: 500;
 }
 
-/* ================= MOBILE FIX ================= */
+/* Logout button */
+.nav-link.btn-link {
+  text-decoration: none;
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {
 
   .search-form {
-    max-width: 100%;
+    width: 100%;
   }
 
   .search-btn span {
-    display: none; /* hide text on small screen */
+    display: none; /* Hide text on mobile */
   }
 
+  .search-btn {
+    padding: 6px 12px;
+  }
+
+  .navbar-nav.mx-auto {
+    margin: 10px 0;
+  }
 }
 </style>
 
 
-<nav class="navbar border-bottom sticky-top">
-  <div class="container-fluid navbar-flex">
+<nav class="navbar navbar-expand-md border-bottom sticky-top">
+  <div class="container-fluid">
 
-    <!-- LEFT: Logo + Explore -->
-    <div class="d-flex align-items-center">
-      <a class="navbar-brand me-3" href="/listings">
-        <i class="fa-regular fa-compass"></i>
-      </a>
+    <!-- Logo -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+    </a>
 
-      <a class="nav-link explore-link" href="/listings">
-        Explore
-      </a>
-    </div>
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- CENTER: SEARCH (ALWAYS VISIBLE) -->
-    <form class="search-form mx-3" action="/listings" method="GET">
-      <input
-        class="form-control search-input"
-        type="search"
-        name="search"
-        placeholder="Search destinations"
-        value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
-      />
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
-      <button class="search-btn" type="submit">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>Search</span>
-      </button>
-    </form>
+      <!-- Left -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
 
-    <!-- RIGHT -->
-    <div class="right-links">
+      <!-- Center Search -->
+      <div class="mx-auto search-wrapper">
+        <form class="search-form" action="/listings" method="GET">
+          <input
+            class="form-control search-input"
+            type="search"
+            name="search"
+            placeholder="Search destinations"
+            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+          />
 
-      <a class="nav-link" href="/listings/new">
-        Airbnb your home
-      </a>
-
-      <% if(!currentUser) { %>
-        <a class="nav-link" href="/signup"><b>Signup</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-      <% } else { %>
-        <form action="/logout" method="POST" class="m-0">
-          <button type="submit" class="btn btn-link nav-link p-0">
-            <b>Logout</b>
+          <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
           </button>
         </form>
-      <% } %>
+      </div>
+
+      <!-- Right -->
+      <div class="navbar-nav align-items-center">
+
+        <a class="nav-link" href="/listings/new">
+          Airbnb your home
+        </a>
+
+        <% if(!currentUser) { %>
+          <a class="nav-link" href="/signup"><b>Signup</b></a>
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } else { %>
+
+          <form action="/logout" method="POST" class="m-0">
+            <button type="submit" class="btn btn-link nav-link p-0">
+              <b>Logout</b>
+            </button>
+          </form>
+
+        <% } %>
+
+      </div>
 
     </div>
-
   </div>
 </nav>
