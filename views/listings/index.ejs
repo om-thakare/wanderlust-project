@@ -2,29 +2,33 @@
 
 <style>
 
+/* ================= GLOBAL ================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto; /* allow horizontal scroll if needed */
+}
+
 /* ================= FILTER BAR ================= */
 
 #filters {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;         /* NEVER wrap */
   gap: 1.5rem;
   padding-bottom: 10px;
   align-items: center;
-  scroll-behavior: smooth;
+  overflow-x: auto;          /* scroll if small screen */
+  white-space: nowrap;
+  scrollbar-width: none;
 }
 
-/* Mobile scroll */
-@media (max-width: 768px) {
-  #filters {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-  }
-
-  #filters::-webkit-scrollbar {
-    display: none;
-  }
+#filters::-webkit-scrollbar {
+  display: none;
 }
 
 .filter {
@@ -79,23 +83,10 @@
 }
 
 .listing-card img {
-  border-radius: 15px;
+  height: 20rem;          /* FIXED height */
   object-fit: cover;
   width: 100%;
-}
-
-/* Mobile image height */
-@media (max-width: 768px) {
-  .listing-card img {
-    height: 16rem;
-  }
-}
-
-/* Desktop image height */
-@media (min-width: 992px) {
-  .listing-card img {
-    height: 20rem;
-  }
+  border-radius: 15px;
 }
 
 .tax-info {
@@ -201,7 +192,7 @@
 
 <!-- ================= LISTINGS ================= -->
 
-<div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-3">
+<div class="row g-4 row-cols-3">
 
   <% if (allListings.length === 0) { %>
     <h4>No listings found.</h4>
