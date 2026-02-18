@@ -1,254 +1,144 @@
 <style>
+/* ================= NAVBAR ================= */
 
-/* ================= NAVBAR BASE ================= */
 .navbar {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 0.8rem 1.5rem;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.navbar.scrolled {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  background: #fff;
+  padding: 0.6rem 1rem;
 }
 
 /* Logo */
 .navbar-brand i {
-  font-size: 1.8rem;
-  color: #ff385c;
+  font-size: 1.5rem;
+  color: #fe424d;
 }
 
-/* ================= FLOATING SEARCH ================= */
-
-.search-pill {
-  background: white;
-  border-radius: 50px;
-  padding: 6px 8px 6px 18px;
+/* Layout Fix */
+.navbar-flex {
   display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.search-pill:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+/* Explore always visible */
+.explore-link {
+  font-weight: 500;
+  margin-right: 15px;
+  white-space: nowrap;
 }
 
-.search-pill span {
-  font-size: 0.9rem;
+/* ================= SEARCH ================= */
+
+.search-form {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  padding: 0.3rem;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+  max-width: 500px;
+  width: 100%;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 50px;
+  padding-left: 1rem;
+  width: 100%;
+}
+
+.search-btn {
+  background-color: #fe424d;
+  color: #fff;
+  border-radius: 50px;
+  padding: 6px 14px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-weight: 500;
 }
 
-.search-circle {
-  background: #ff385c;
-  color: white;
-  height: 34px;
-  width: 34px;
-  border-radius: 50%;
+.search-btn:hover {
+  background-color: #e63946;
+  color: #fff;
+}
+
+/* Right links */
+.right-links {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 15px;
 }
 
-/* ================= SEARCH MODAL ================= */
-
-.search-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 100px;
-  z-index: 2000;
-  animation: fadeIn 0.3s ease;
-}
-
-.search-modal.active {
-  display: flex;
-}
-
-.search-box {
-  background: white;
-  width: 600px;
-  max-width: 95%;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  animation: slideDown 0.3s ease;
-}
-
-.search-box input {
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 1.1rem;
-  padding: 12px;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-@keyframes slideDown {
-  from {transform: translateY(-20px); opacity: 0;}
-  to {transform: translateY(0); opacity: 1;}
-}
-
-/* ================= PROFILE MENU ================= */
-
-.profile-menu {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 5px 10px;
-  border-radius: 50px;
-  cursor: pointer;
-}
-
-.profile-avatar {
-  width: 32px;
-  height: 32px;
-  background: #ddd;
-  border-radius: 50%;
-  margin-left: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ================= MOBILE ================= */
+/* ================= MOBILE FIX ================= */
 
 @media (max-width: 768px) {
 
-  .search-pill span {
-    display: none;
+  .search-form {
+    max-width: 100%;
   }
 
-  .search-pill {
-    padding: 6px;
-  }
-
-  .search-box {
-    width: 95%;
-    padding: 15px;
+  .search-btn span {
+    display: none; /* hide text on small screen */
   }
 
 }
-
 </style>
 
 
-<nav class="navbar navbar-expand-md sticky-top border-bottom" id="mainNavbar">
-  <div class="container-fluid">
+<nav class="navbar border-bottom sticky-top">
+  <div class="container-fluid navbar-flex">
 
-    <!-- Logo -->
-    <a class="navbar-brand" href="/listings">
-      <i class="fa-regular fa-compass"></i>
-    </a>
+    <!-- LEFT: Logo + Explore -->
+    <div class="d-flex align-items-center">
+      <a class="navbar-brand me-3" href="/listings">
+        <i class="fa-regular fa-compass"></i>
+      </a>
 
-    <!-- Center Floating Search -->
-    <div class="mx-auto">
-      <div class="search-pill" id="openSearch">
-        <span>Anywhere</span>
-        <span>|</span>
-        <span>Any week</span>
-        <span>|</span>
-        <span>Add guests</span>
-
-        <div class="search-circle">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-      </div>
+      <a class="nav-link explore-link" href="/listings">
+        Explore
+      </a>
     </div>
 
-    <!-- Right Side -->
-    <div class="d-flex align-items-center">
+    <!-- CENTER: SEARCH (ALWAYS VISIBLE) -->
+    <form class="search-form mx-3" action="/listings" method="GET">
+      <input
+        class="form-control search-input"
+        type="search"
+        name="search"
+        placeholder="Search destinations"
+        value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+      />
 
-      <a class="nav-link me-3" href="/listings/new">
+      <button class="search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search</span>
+      </button>
+    </form>
+
+    <!-- RIGHT -->
+    <div class="right-links">
+
+      <a class="nav-link" href="/listings/new">
         Airbnb your home
       </a>
 
-      <div class="dropdown">
-        <div class="profile-menu" data-bs-toggle="dropdown">
-          <i class="fa-solid fa-bars"></i>
-          <div class="profile-avatar">
-            <% if(currentUser){ %>
-              <%= currentUser.username.charAt(0).toUpperCase() %>
-            <% } else { %>
-              <i class="fa-solid fa-user"></i>
-            <% } %>
-          </div>
-        </div>
-
-        <ul class="dropdown-menu dropdown-menu-end">
-          <% if(!currentUser){ %>
-            <li><a class="dropdown-item" href="/signup">Signup</a></li>
-            <li><a class="dropdown-item" href="/login">Login</a></li>
-          <% } else { %>
-            <li><span class="dropdown-item-text fw-bold">
-              Hello, <%= currentUser.username %>
-            </span></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <form action="/logout" method="POST">
-                <button class="dropdown-item">Logout</button>
-              </form>
-            </li>
-          <% } %>
-        </ul>
-      </div>
+      <% if(!currentUser) { %>
+        <a class="nav-link" href="/signup"><b>Signup</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+      <% } else { %>
+        <form action="/logout" method="POST" class="m-0">
+          <button type="submit" class="btn btn-link nav-link p-0">
+            <b>Logout</b>
+          </button>
+        </form>
+      <% } %>
 
     </div>
 
   </div>
 </nav>
-
-
-<!-- ================= SEARCH MODAL ================= -->
-<div class="search-modal" id="searchModal">
-  <div class="search-box">
-    <form action="/listings" method="GET">
-      <input
-        type="text"
-        name="search"
-        placeholder="Search destinations..."
-        autofocus
-      >
-    </form>
-  </div>
-</div>
-
-
-<script>
-
-/* Open Search */
-const openSearch = document.getElementById("openSearch");
-const searchModal = document.getElementById("searchModal");
-
-openSearch.addEventListener("click", () => {
-  searchModal.classList.add("active");
-});
-
-/* Close When Clicking Outside */
-searchModal.addEventListener("click", (e) => {
-  if(e.target === searchModal){
-    searchModal.classList.remove("active");
-  }
-});
-
-/* Navbar Shadow */
-window.addEventListener("scroll", () => {
-  const navbar = document.getElementById("mainNavbar");
-  window.scrollY > 10
-    ? navbar.classList.add("scrolled")
-    : navbar.classList.remove("scrolled");
-});
-
-</script>
