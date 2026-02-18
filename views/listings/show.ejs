@@ -1,163 +1,326 @@
-
 <% layout("/layouts/boilerplate") %>
 
+<style>
+
+/* ================= IMAGE ================= */
+.show-img {
+  height: 420px;
+  object-fit: cover;
+}
+
+/* ================= MAP ================= */
+#map {
+  height: 300px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* ================= STAR INPUT ================= */
+
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+  gap: 5px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 28px;
+  color: #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ff385c;
+}
+
+.star-rating input:checked ~ label {
+  color: #ff385c;
+}
+
+/* ================= REVIEW STARS ================= */
+
+.star {
+  font-size: 18px;
+  color: #ddd;
+}
+
+.star.filled {
+  color: #ff385c;
+}
+
+.star.half {
+  background: linear-gradient(90deg,#ff385c 50%,#ddd 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ================= RATING SUMMARY ================= */
+
+.rating-summary {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.rating-average {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.rating-bar {
+  flex: 1;
+  height: 6px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rating-fill {
+  height: 100%;
+  background: #ff385c;
+}
+
+</style>
+
+
 <div class="container mt-3">
+<div class="row">
 
-  <div class="row">
+<!-- ================= LEFT SIDE ================= -->
+<div class="col-12 col-lg-8">
 
-    <!-- ================= LEFT SIDE (LISTING DETAILS) ================= -->
-    <div class="col-12 col-lg-8">
+  <!-- TITLE -->
+  <h3 class="fw-bold"><%= listing.title %></h3>
 
-      <!-- TITLE -->
-      <h3 class="fw-bold"><%= listing.title %></h3>
+  <% 
+    let total = 0;
+    listing.reviews.forEach(r => total += r.rating);
+    let avgRating = listing.reviews.length 
+      ? (total / listing.reviews.length) 
+      : 0;
+  %>
 
-      <!-- LISTING CARD -->
-      <div class="card border-0 shadow-sm mt-3">
+  <!-- AVERAGE RATING -->
+  <div class="mb-2">
+    <span class="rating-average">
+      <%= avgRating.toFixed(1) %>
+    </span>
 
-        <img 
-          src="<%= listing.image?.url || '/images/default.jpg' %>"
-          class="card-img-top show-img"
-          alt="<%= listing.title %>"
-        >
-
-        <div class="card-body">
-
-          <p class="text-muted mb-1">
-            Owned by 
-            <b><%= listing.owner?.username || "Unknown" %></b>
-          </p>
-
-          <h5 class="fw-bold">
-            &#8377;<%= listing.price.toLocaleString("en-IN") %>
-          </h5>
-
-          <p class="text-muted">
-            <%= listing.location %>, <%= listing.country %>
-          </p>
-
-          <hr>
-
-          <p><%= listing.description %></p>
-
-        </div>
-      </div>
-
-      <!-- OWNER BUTTONS -->
-      <% if (currUser && listing.owner &&
-            currUser._id.toString() === listing.owner._id.toString()) { %>
-
-        <div class="mt-3">
-          <a href="/listings/<%= listing._id %>/edit" 
-             class="btn btn-dark">Edit</a>
-
-          <form action="/listings/<%= listing._id %>?_method=DELETE"
-                method="POST"
-                class="d-inline">
-            <button class="btn btn-danger">Delete</button>
-          </form>
-        </div>
-
+    <% for(let i=1;i<=5;i++){ %>
+      <% if(i <= Math.floor(avgRating)){ %>
+        <span class="star filled">&#9733;</span>
+      <% } else if(i - avgRating < 1 && i - avgRating > 0){ %>
+        <span class="star half">&#9733;</span>
+      <% } else { %>
+        <span class="star">&#9733;</span>
       <% } %>
+    <% } %>
 
-      <hr class="mt-4">
+    <span class="text-muted">
+      (<%= listing.reviews.length %> reviews)
+    </span>
+  </div>
 
-      <!-- ================= REVIEW FORM ================= -->
-      <% if (currUser) { %>
 
-        <h4>Leave a Review</h4>
+  <!-- LISTING CARD -->
+  <div class="card border-0 shadow-sm mt-3">
+    <img 
+      src="<%= listing.image?.url || '/images/default.jpg' %>"
+      class="card-img-top show-img"
+      alt="<%= listing.title %>"
+    >
 
-        <form action="/listings/<%= listing._id %>/reviews"
-              method="POST"
-              class="needs-validation"
-              novalidate>
+    <div class="card-body">
 
-          <fieldset class="mb-3">
-            <legend>Star Rating:</legend>
+      <p class="text-muted mb-1">
+        Owned by <b><%= listing.owner?.username || "Unknown" %></b>
+      </p>
 
-            <% for(let i=1; i<=5; i++) { %>
-              <input type="radio"
-                     id="rate<%= i %>"
-                     name="review[rating]"
-                     value="<%= i %>">
-              <label for="rate<%= i %>"><%= i %> star</label>
-            <% } %>
-          </fieldset>
+      <h5 class="fw-bold">
+        &#8377;<%= listing.price.toLocaleString("en-IN") %>
+      </h5>
 
-          <div class="mb-3">
-            <label class="form-label">Comments</label>
-            <textarea name="review[comment]"
-                      rows="4"
-                      class="form-control"
-                      required></textarea>
+      <p class="text-muted">
+        <%= listing.location %>, <%= listing.country %>
+      </p>
 
-            <div class="invalid-feedback">
-              Please add some comments.
-            </div>
-          </div>
+      <hr>
 
-          <button class="btn btn-outline-dark">
-            Submit
-          </button>
-        </form>
-
-        <hr>
-
-      <% } %>
-
-      <!-- ================= ALL REVIEWS ================= -->
-      <% if (listing.reviews.length > 0) { %>
-
-        <h4>All Reviews</h4>
-
-        <div class="row">
-          <% listing.reviews.forEach(review => { %>
-
-            <div class="col-12 col-md-6 mb-3">
-              <div class="card shadow-sm h-100">
-                <div class="card-body">
-
-                  <h5>
-                    <%= review.author?.username || "Anonymous" %>
-                  </h5>
-
-                  <p>Rating: <%= review.rating %> / 5</p>
-                  <p><%= review.comment %></p>
-
-                  <% if (currUser && review.author &&
-                        currUser._id.toString() === review.author._id.toString()) { %>
-
-                    <form method="POST"
-                          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                      <button class="btn btn-sm btn-dark">
-                        Delete
-                      </button>
-                    </form>
-
-                  <% } %>
-
-                </div>
-              </div>
-            </div>
-
-          <% }) %>
-        </div>
-
-      <% } %>
+      <p><%= listing.description %></p>
 
     </div>
+  </div>
 
 
-    <!-- ================= RIGHT SIDE MAP ================= -->
-    <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+  <!-- OWNER BUTTONS -->
+  <% if (currUser && listing.owner &&
+        currUser._id.toString() === listing.owner._id.toString()) { %>
 
-      <div class="map-card p-3 shadow-sm">
-        <h5>Where you'll be</h5>
-        <div id="map"></div>
+    <div class="mt-3">
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
+
+      <form action="/listings/<%= listing._id %>?_method=DELETE"
+            method="POST"
+            class="d-inline">
+        <button class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+
+  <% } %>
+
+  <hr class="mt-4">
+
+
+  <!-- ================= REVIEW FORM ================= -->
+  <% if (currUser) { %>
+
+  <h4>Leave a Review</h4>
+
+  <form action="/listings/<%= listing._id %>/reviews"
+        method="POST"
+        class="needs-validation"
+        novalidate>
+
+    <!-- STAR INPUT -->
+    <div class="mb-3">
+      <label class="form-label">Rating</label>
+
+      <div class="star-rating">
+        <input type="radio" name="review[rating]" value="5" id="star5">
+        <label for="star5">&#9733;</label>
+
+        <input type="radio" name="review[rating]" value="4" id="star4">
+        <label for="star4">&#9733;</label>
+
+        <input type="radio" name="review[rating]" value="3" id="star3">
+        <label for="star3">&#9733;</label>
+
+        <input type="radio" name="review[rating]" value="2" id="star2">
+        <label for="star2">&#9733;</label>
+
+        <input type="radio" name="review[rating]" value="1" id="star1">
+        <label for="star1">&#9733;</label>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Comments</label>
+      <textarea name="review[comment]"
+                rows="4"
+                class="form-control"
+                required></textarea>
+
+      <div class="invalid-feedback">
+        Please add some comments.
+      </div>
+    </div>
+
+    <button class="btn btn-outline-dark">Submit</button>
+  </form>
+
+  <hr>
+
+  <% } %>
+
+
+  <!-- ================= RATING PROGRESS ================= -->
+  <div class="rating-summary">
+
+    <% for(let star=5; star>=1; star--){ 
+        let count = listing.reviews.filter(r => r.rating === star).length;
+        let percent = listing.reviews.length
+          ? (count / listing.reviews.length) * 100
+          : 0;
+    %>
+
+    <div class="rating-row">
+      <span><%= star %></span>
+      <span class="star filled">&#9733;</span>
+
+      <div class="rating-bar">
+        <div class="rating-fill" style="width:<%= percent %>%"></div>
       </div>
 
+      <span class="text-muted"><%= count %></span>
     </div>
+
+    <% } %>
 
   </div>
+
+
+  <!-- ================= ALL REVIEWS ================= -->
+  <% if (listing.reviews.length > 0) { %>
+
+  <h4>All Reviews</h4>
+
+  <div class="row">
+    <% listing.reviews.forEach(review => { %>
+
+    <div class="col-12 col-md-6 mb-3">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+
+          <h5><%= review.author?.username || "Anonymous" %></h5>
+
+          <!-- Stars -->
+          <p>
+            <% for(let i=1;i<=5;i++){ %>
+              <% if(i <= review.rating){ %>
+                <span class="star filled">&#9733;</span>
+              <% } else { %>
+                <span class="star">&#9733;</span>
+              <% } %>
+            <% } %>
+          </p>
+
+          <p><%= review.comment %></p>
+
+          <% if (currUser && review.author &&
+                currUser._id.toString() === review.author._id.toString()) { %>
+
+          <form method="POST"
+                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+            <button class="btn btn-sm btn-dark">Delete</button>
+          </form>
+
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+
+    <% }) %>
+  </div>
+
+  <% } %>
+
+</div>
+
+
+<!-- ================= RIGHT SIDE MAP ================= -->
+<div class="col-12 col-lg-4 mt-4 mt-lg-0">
+  <div class="map-card p-3 shadow-sm">
+    <h5>Where you'll be</h5>
+    <div id="map"></div>
+  </div>
+</div>
+
+</div>
 </div>
 
 
@@ -167,10 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const listing = <%- JSON.stringify(listing) %>;
 
-  if (!listing.geometry || !listing.geometry.coordinates) {
-    console.log("No coordinates found");
-    return;
-  }
+  if (!listing.geometry || !listing.geometry.coordinates) return;
 
   const [lng, lat] = listing.geometry.coordinates;
 
@@ -181,11 +341,9 @@ document.addEventListener("DOMContentLoaded", function () {
     maxZoom: 19
   }).addTo(map);
 
-  const marker = L.marker([lat, lng]).addTo(map);
-
-  marker.bindPopup(
-    `<b>${listing.title}</b><br>${listing.location}`
-  ).openPopup();
-
+  L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup(`<b>${listing.title}</b><br>${listing.location}`)
+    .openPopup();
 });
 </script>

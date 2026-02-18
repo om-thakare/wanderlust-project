@@ -6,15 +6,25 @@
 
 #filters {
   display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
+  flex-wrap: wrap;
   gap: 1.5rem;
   padding-bottom: 10px;
-  scrollbar-width: none;
+  align-items: center;
+  scroll-behavior: smooth;
 }
 
-#filters::-webkit-scrollbar {
-  display: none;
+/* Mobile scroll */
+@media (max-width: 768px) {
+  #filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  #filters::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .filter {
@@ -22,6 +32,7 @@
   opacity: 0.7;
   transition: 0.3s ease;
   min-width: 70px;
+  flex-shrink: 0;
 }
 
 .filter:hover {
@@ -51,6 +62,7 @@
   align-items: center;
   white-space: nowrap;
   background: white;
+  margin-left: auto;
 }
 
 /* ================= LISTING CARDS ================= */
@@ -69,6 +81,7 @@
 .listing-card img {
   border-radius: 15px;
   object-fit: cover;
+  width: 100%;
 }
 
 /* Mobile image height */
@@ -174,7 +187,7 @@
   </a>
 
   <!-- TAX TOGGLE -->
-  <div class="tax-toggle ms-auto">
+  <div class="tax-toggle">
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="switchCheckDefault">
       <label class="form-check-label">

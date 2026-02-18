@@ -1,83 +1,132 @@
 <style>
-/* ================= NAVBAR ================= */
+/* ================= NAVBAR BASE ================= */
 
 .navbar {
   background: #fff;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1.5rem;
+  transition: box-shadow 0.3s ease;
+  z-index: 1000;
+}
+
+/* Shadow appears on scroll */
+.navbar.scrolled {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* Logo */
 .navbar-brand i {
-  font-size: 1.5rem;
-  color: #fe424d;
+  font-size: 1.8rem;
+  color: #ff385c;
 }
 
-/* Center Search Box */
+/* ================= SEARCH BAR ================= */
+
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
 .search-form {
   display: flex;
   align-items: center;
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 50px;
-  padding: 0.3rem;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+  border-radius: 40px;
+  padding: 4px;
+  transition: all 0.3s ease;
+  width: 260px;
+}
+
+.search-form.active {
+  width: 420px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 .search-input {
   border: none;
   outline: none;
   box-shadow: none;
-  border-radius: 50px;
-  padding-left: 1rem;
-  min-width: 220px;
+  border-radius: 40px;
+  padding: 8px 14px;
+  width: 100%;
+  font-size: 0.95rem;
 }
 
-.search-input:focus {
-  box-shadow: none;
-}
-
-/* Search Button */
 .search-btn {
-  background-color: #fe424d;
-  color: #fff;
-  border-radius: 50px;
-  padding: 6px 16px;
+  background-color: #ff385c;
+  color: white;
+  border-radius: 50%;
   border: none;
+  height: 38px;
+  width: 38px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+}
+
+/* ================= PROFILE MENU ================= */
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.profile-menu:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  background: #ddd;
+  border-radius: 50%;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 10px 0;
+}
+
+.dropdown-item {
+  padding: 8px 20px;
   font-weight: 500;
 }
 
-.search-btn:hover {
-  background-color: #e63946;
-  color: #fff;
-}
+/* ================= MOBILE ================= */
 
-/* Right links */
-.navbar-nav .nav-link {
-  font-weight: 500;
-}
-
-/* Logout button fix */
-.nav-link.btn-link {
-  text-decoration: none;
-}
-
-/* Mobile Fix */
 @media (max-width: 768px) {
-  .search-input {
-    min-width: 120px;
+
+  .search-form {
+    width: 100%;
   }
 
-  .navbar-nav.mx-auto {
+  .search-form.active {
+    width: 100%;
+  }
+
+  .search-wrapper {
     margin: 10px 0;
   }
 }
 </style>
 
 
-<nav class="navbar navbar-expand-md border-bottom sticky-top">
+<nav class="navbar navbar-expand-md sticky-top border-bottom" id="mainNavbar">
   <div class="container-fluid">
 
     <!-- Logo -->
@@ -85,15 +134,15 @@
       <i class="fa-regular fa-compass"></i>
     </a>
 
-    <!-- Mobile Toggle -->
+    <!-- Toggle -->
     <button class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup">
+            data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse" id="navbarNav">
 
       <!-- Left -->
       <div class="navbar-nav">
@@ -101,19 +150,17 @@
       </div>
 
       <!-- Center Search -->
-      <div class="mx-auto">
-        <form class="search-form" action="/listings" method="GET">
+      <div class="mx-auto search-wrapper">
+        <form class="search-form" id="searchForm" action="/listings" method="GET">
           <input
-            class="form-control search-input"
+            class="search-input"
             type="search"
             name="search"
             placeholder="Search destinations"
             value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
           />
-
           <button class="search-btn" type="submit">
-            <i class="fa-brands fa-sistrix"></i>
-            Search
+            <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
       </div>
@@ -121,25 +168,77 @@
       <!-- Right -->
       <div class="navbar-nav align-items-center">
 
-        <a class="nav-link" href="/listings/new">
+        <a class="nav-link me-3" href="/listings/new">
           Airbnb your home
         </a>
 
-        <% if(!currentUser) { %>
-          <a class="nav-link" href="/signup"><b>Signup</b></a>
-          <a class="nav-link" href="/login"><b>Login</b></a>
-        <% } else { %>
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
 
-          <form action="/logout" method="POST" class="m-0">
-            <button type="submit" class="btn btn-link nav-link p-0">
-              <b>Logout</b>
-            </button>
-          </form>
+          <div class="profile-menu" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-bars"></i>
 
-        <% } %>
+            <div class="profile-avatar">
+              <% if(currentUser){ %>
+                <%= currentUser.username.charAt(0).toUpperCase() %>
+              <% } else { %>
+                <i class="fa-solid fa-user"></i>
+              <% } %>
+            </div>
+          </div>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+
+            <% if(!currentUser){ %>
+              <li><a class="dropdown-item" href="/signup">Signup</a></li>
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+            <% } else { %>
+              <li><span class="dropdown-item-text fw-bold">
+                Hello, <%= currentUser.username %>
+              </span></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form action="/logout" method="POST">
+                  <button class="dropdown-item">Logout</button>
+                </form>
+              </li>
+            <% } %>
+
+          </ul>
+        </div>
 
       </div>
 
     </div>
   </div>
 </nav>
+
+
+<script>
+
+/* ================= SEARCH EXPAND ================= */
+const searchForm = document.getElementById("searchForm");
+const searchInput = searchForm.querySelector("input");
+
+searchInput.addEventListener("focus", () => {
+  searchForm.classList.add("active");
+});
+
+searchInput.addEventListener("blur", () => {
+  if(searchInput.value === ""){
+    searchForm.classList.remove("active");
+  }
+});
+
+/* ================= NAVBAR SHADOW ON SCROLL ================= */
+window.addEventListener("scroll", () => {
+  const navbar = document.getElementById("mainNavbar");
+
+  if (window.scrollY > 10) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+
+</script>
