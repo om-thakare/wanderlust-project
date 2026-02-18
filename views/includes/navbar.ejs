@@ -6,11 +6,10 @@
 
 body {
   margin: 0;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* ================= NAVBAR ================= */
-
 .navbar {
   background: #fff;
   padding: 0.6rem 1rem;
@@ -22,7 +21,6 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  flex-wrap: nowrap;
 }
 
 /* LEFT */
@@ -56,11 +54,6 @@ body {
   width: 100%;
   max-width: 480px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-  transition: 0.2s ease;
-}
-
-.search-form:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
 .search-input {
@@ -82,11 +75,6 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
-}
-
-.search-btn:hover {
-  background-color: #e63946;
 }
 
 /* RIGHT */
@@ -115,13 +103,37 @@ body {
 }
 
 /* ================= MOBILE ================= */
-
 @media (max-width: 768px) {
 
   .navbar-container {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+  }
+
+  .nav-left, .nav-right {
+    display: none; /* hide links on mobile */
+  }
+
+  .mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .mobile-nav .nav-btn {
+    background: #fe424d;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .search-wrapper {
@@ -132,19 +144,13 @@ body {
     max-width: 100%;
   }
 
-  .nav-right {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
 }
 </style>
-
 
 <nav class="navbar sticky-top">
   <div class="container-fluid navbar-container">
 
-    <!-- LEFT -->
+    <!-- LEFT (desktop only) -->
     <div class="nav-left">
       <a class="navbar-brand" href="/listings">
         <i class="fa-regular fa-compass"></i>
@@ -152,7 +158,7 @@ body {
       <a class="nav-link" href="/listings">Explore</a>
     </div>
 
-    <!-- CENTER -->
+    <!-- CENTER SEARCH -->
     <div class="search-wrapper">
       <form class="search-form" action="/listings" method="GET">
         <input
@@ -169,24 +175,29 @@ body {
       </form>
     </div>
 
-    <!-- RIGHT -->
+    <!-- RIGHT (desktop only) -->
     <div class="nav-right">
-
-      <a class="nav-link" href="/listings/new">
-        Airbnb your home
-      </a>
+      <a class="nav-link" href="/listings/new">Airbnb your home</a>
 
       <% if(!currentUser) { %>
         <a class="nav-link" href="/signup"><b>Signup</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
       <% } else { %>
         <form action="/logout" method="POST" class="m-0">
-          <button type="submit" class="btn-link nav-link">
-            <b>Logout</b>
-          </button>
+          <button type="submit" class="btn-link nav-link"><b>Logout</b></button>
         </form>
       <% } %>
+    </div>
 
+    <!-- MOBILE NAV (mobile only) -->
+    <div class="mobile-nav">
+      <% if(!currentUser) { %>
+        <a href="/login" class="nav-btn">Login</a>
+      <% } else { %>
+        <form action="/logout" method="POST">
+          <button type="submit" class="nav-btn">Logout</button>
+        </form>
+      <% } %>
     </div>
 
   </div>
