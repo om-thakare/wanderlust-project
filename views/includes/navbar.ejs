@@ -1,174 +1,177 @@
-<% layout("layouts/boilerplate") %> ✅
-
+<!-- ✅ NAVBAR PARTIAL (NO LAYOUT HERE!) -->
 
 <style>
-/* ================= GLOBAL ================= */
-* {
-  box-sizing: border-box;
-}
+  /* ================= GLOBAL ================= */
+  * {
+    box-sizing: border-box;
+  }
 
-body {
-  margin: 0;
-  overflow-x: hidden;
-}
+  body {
+    margin: 0;
+    overflow-x: hidden;
+  }
 
-/* ================= NAVBAR ================= */
-.navbar {
-  background: #fff;
-  padding: 0.6rem 1rem;
-  border-bottom: 1px solid #eee;
-}
+  /* ================= NAVBAR ================= */
+  .navbar {
+    background: #fff;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #eee;
+  }
 
-.navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* LEFT (desktop only) */
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  white-space: nowrap;
-}
-
-.navbar-brand i {
-  font-size: 1.6rem;
-  color: #fe424d;
-}
-
-/* CENTER SEARCH */
-.search-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-.search-form {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 50px;
-  padding: 0.3rem;
-  width: 100%;
-  max-width: 480px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-}
-
-.search-input {
-  border: none;
-  outline: none;
-  box-shadow: none;
-  padding-left: 1rem;
-  width: 100%;
-  min-width: 0;
-}
-
-.search-btn {
-  background-color: #fe424d;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 6px 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* RIGHT (desktop only) */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  white-space: nowrap;
-}
-
-.nav-link {
-  text-decoration: none;
-  font-weight: 500;
-  color: #000;
-}
-
-.nav-link:hover {
-  color: #fe424d;
-}
-
-.btn-link {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-
-  /* Hide desktop nav sections */
-  .nav-left, .nav-right { display: none; }
-
-  .search-wrapper {
-    width: 100%;
+  .navbar-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
   }
 
-  /* Hamburger button */
-  .hamburger-btn {
+  /* LEFT (desktop only) */
+  .nav-left {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 28px;
-    height: 22px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
   }
 
-  .hamburger-btn span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: #fe424d;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+  .navbar-brand i {
+    font-size: 1.6rem;
+    color: #fe424d;
   }
 
-  /* Mobile menu hidden by default */
-  .mobile-menu {
-    display: none;
-    flex-direction: column;
+  /* CENTER SEARCH */
+  .search-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-top: 10px;
+    min-width: 0;
   }
 
-  .mobile-menu a,
-  .mobile-menu form button {
-    background: #fe424d;
+  .search-form {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    padding: 0.3rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .search-input {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding-left: 1rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search-btn {
+    background-color: #fe424d;
     color: white;
     border: none;
     border-radius: 50px;
-    padding: 8px 0;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
+    padding: 6px 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     cursor: pointer;
   }
 
-  .mobile-menu a:hover,
-  .mobile-menu form button:hover {
-    background: #e63946;
+  /* RIGHT (desktop only) */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
   }
-}
+
+  .nav-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #000;
+  }
+
+  .nav-link:hover {
+    color: #fe424d;
+  }
+
+  .btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  /* ================= MOBILE ================= */
+  @media (max-width: 768px) {
+    /* Hide desktop nav sections */
+    .nav-left,
+    .nav-right {
+      display: none;
+    }
+
+    .search-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Hamburger button */
+    .hamburger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 22px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: #fe424d;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile menu hidden by default */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .mobile-menu a,
+    .mobile-menu form button {
+      background: #fe424d;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 0;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu form button:hover {
+      background: #e63946;
+    }
+  }
 </style>
 
 <nav class="navbar sticky-top">
@@ -184,6 +187,7 @@ body {
 
     <!-- CENTER SEARCH + HAMBURGER FOR MOBILE -->
     <div class="search-wrapper">
+
       <!-- Hamburger for mobile -->
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span>
@@ -200,6 +204,7 @@ body {
           placeholder="Search destinations"
           value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
         />
+
         <button class="search-btn" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
           <span>Search</span>
@@ -216,7 +221,9 @@ body {
         <a class="nav-link" href="/login"><b>Login</b></a>
       <% } else { %>
         <form action="/logout" method="POST" class="m-0">
-          <button type="submit" class="btn-link nav-link"><b>Logout</b></button>
+          <button type="submit" class="btn-link nav-link">
+            <b>Logout</b>
+          </button>
         </form>
       <% } %>
     </div>

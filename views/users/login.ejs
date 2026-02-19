@@ -1,16 +1,18 @@
-<%- include("../includes/navbar.ejs") %>
-<%- include("../includes/flash.ejs") %>
+<% layout("layouts/boilerplate") %> ✅
 
-<!-- Font Awesome -->
+
+<!-- Font Awesome (for icons if needed later) -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
+/* Light Red Background */
 body {
   background: linear-gradient(135deg, #ffb3b3, #ff6b6b);
   min-height: 100vh;
 }
 
+/* Center Wrapper */
 .login-wrapper {
   min-height: 85vh;
   display: flex;
@@ -18,6 +20,7 @@ body {
   justify-content: center;
 }
 
+/* Glass Card */
 .login-card {
   width: 500px;
   padding: 40px;
@@ -27,12 +30,14 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
+/* Title */
 .login-title {
   font-weight: 600;
   text-align: center;
   margin-bottom: 25px;
 }
 
+/* Inputs */
 .form-control {
   border-radius: 30px;
   padding: 12px 18px;
@@ -45,6 +50,7 @@ body {
   border: 1px solid #ff6b6b;
 }
 
+/* Button */
 .btn-login {
   background: #b30000;
   color: white;
@@ -110,5 +116,3 @@ body {
   </div>
 
 </div>
-
-<%- include("../includes/footer.ejs") %>
