@@ -1,7 +1,6 @@
-<!-- ✅ NAVBAR PARTIAL (NO LAYOUT HERE!) -->
+<!-- ✅ NAVBAR PARTIAL -->
 
 <style>
-  /* ================= GLOBAL ================= */
   * {
     box-sizing: border-box;
   }
@@ -26,7 +25,7 @@
     flex-wrap: wrap;
   }
 
-  /* LEFT (desktop only) */
+  /* LEFT */
   .nav-left {
     display: flex;
     align-items: center;
@@ -39,14 +38,12 @@
     color: #fe424d;
   }
 
-  /* CENTER SEARCH */
+  /* SEARCH */
   .search-wrapper {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    min-width: 0;
   }
 
   .search-form {
@@ -58,16 +55,13 @@
     padding: 0.3rem;
     width: 100%;
     max-width: 480px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   }
 
   .search-input {
     border: none;
     outline: none;
-    box-shadow: none;
     padding-left: 1rem;
     width: 100%;
-    min-width: 0;
   }
 
   .search-btn {
@@ -76,19 +70,20 @@
     border: none;
     border-radius: 50px;
     padding: 6px 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
     cursor: pointer;
   }
 
-  /* RIGHT (desktop only) */
+  /* RIGHT */
   .nav-right {
     display: flex;
     align-items: center;
     gap: 15px;
-    white-space: nowrap;
+  }
+
+  /* Desktop links */
+  .nav-right-links {
+    display: flex;
+    gap: 15px;
   }
 
   .nav-link {
@@ -101,90 +96,89 @@
     color: #fe424d;
   }
 
-  .btn-link {
-    background: none;
+  /* ✅ Hamburger button */
+  .hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 28px;
+    height: 22px;
     border: none;
-    padding: 0;
+    background: none;
     cursor: pointer;
   }
 
-  /* ✅ Hide hamburger by default (desktop) */
-  .hamburger-btn {
-    display: none;
+  .hamburger-btn span {
+    height: 3px;
+    width: 100%;
+    background-color: #fe424d;
+    border-radius: 2px;
   }
 
-  /* ================= MOBILE ================= */
+  /* Hamburger menu */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    width: 200px;
+    position: absolute;
+    right: 20px;
+    top: 70px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+
+  .mobile-menu a,
+  .mobile-menu button {
+    background: #fe424d;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* ================= MOBILE VIEW ================= */
   @media (max-width: 768px) {
 
-    /* Hide desktop nav sections */
-    .nav-left,
-    .nav-right {
+    /* Hide desktop right links */
+    .nav-right-links {
       display: none;
     }
 
-    .search-wrapper {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* ✅ Show hamburger ONLY on mobile */
+    /* Show hamburger */
     .hamburger-btn {
       display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      width: 28px;
-      height: 22px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      padding: 0;
     }
 
-    .hamburger-btn span {
-      display: block;
-      height: 3px;
-      width: 100%;
-      background-color: #fe424d;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    /* Mobile menu hidden by default */
-    .mobile-menu {
+    /* Hide left section */
+    .nav-left {
       display: none;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-      width: 100%;
     }
+  }
 
-    .mobile-menu a,
-    .mobile-menu form button {
-      background: #fe424d;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 8px 0;
-      font-weight: 600;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-    }
+  /* ================= DESKTOP VIEW ================= */
+  @media (min-width: 769px) {
 
-    .mobile-menu a:hover,
-    .mobile-menu form button:hover {
-      background: #e63946;
+    /* Show hamburger on desktop right side */
+    .hamburger-btn {
+      display: flex;
     }
   }
 </style>
 
-<!-- ================= NAVBAR HTML ================= -->
+<!-- ================= NAVBAR ================= -->
 <nav class="navbar sticky-top">
   <div class="container-fluid navbar-container">
 
-    <!-- LEFT (desktop only) -->
+    <!-- LEFT -->
     <div class="nav-left">
       <a class="navbar-brand" href="/listings">
         <i class="fa-regular fa-compass"></i>
@@ -192,17 +186,8 @@
       <a class="nav-link" href="/listings">Explore</a>
     </div>
 
-    <!-- CENTER SEARCH + HAMBURGER FOR MOBILE -->
+    <!-- SEARCH -->
     <div class="search-wrapper">
-
-      <!-- ✅ Hamburger (mobile only) -->
-      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <!-- Search form -->
       <form class="search-form" action="/listings" method="GET">
         <input
           class="search-input"
@@ -211,42 +196,47 @@
           placeholder="Search destinations"
           value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
         />
-
         <button class="search-btn" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Search</span>
         </button>
       </form>
     </div>
 
-    <!-- RIGHT (desktop only) -->
+    <!-- RIGHT -->
     <div class="nav-right">
-      <a class="nav-link" href="/listings/new">Airbnb your home</a>
 
-      <% if(!currentUser) { %>
-        <a class="nav-link" href="/signup"><b>Signup</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-      <% } else { %>
-        <form action="/logout" method="POST" class="m-0">
-          <button type="submit" class="btn-link nav-link">
-            <b>Logout</b>
-          </button>
-        </form>
-      <% } %>
+      <!-- Desktop Links (normal navbar stays) -->
+      <div class="nav-right-links">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+
+        <% if(!currentUser) { %>
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %>
+      </div>
+
+      <!-- ✅ Hamburger always on right -->
+      <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
     </div>
 
-    <!-- ✅ MOBILE MENU -->
+    <!-- ✅ Hamburger Menu ONLY 3 OPTIONS -->
     <div id="mobileMenu" class="mobile-menu">
+
       <a href="/listings/new">Airbnb your home</a>
 
       <% if(!currentUser) { %>
-        <a href="/signup">Signup</a>
         <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
       <% } else { %>
         <form action="/logout" method="POST">
           <button type="submit">Logout</button>
         </form>
       <% } %>
+
     </div>
 
   </div>
@@ -258,10 +248,7 @@
   const mobileMenu = document.getElementById("mobileMenu");
 
   hamburgerBtn.addEventListener("click", () => {
-    if (mobileMenu.style.display === "flex") {
-      mobileMenu.style.display = "none";
-    } else {
-      mobileMenu.style.display = "flex";
-    }
+    mobileMenu.style.display =
+      mobileMenu.style.display === "flex" ? "none" : "flex";
   });
 </script>

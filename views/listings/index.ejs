@@ -64,46 +64,52 @@
   margin-left: auto;
 }
 
-/* ================= LISTING CARDS ================= */
+/* ================= LISTINGS MULTI ROW SCROLL ================= */
 
+.listings-row {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.listings-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each listing card fixed width */
+.listing-item {
+  flex: 0 0 auto;
+  width: 280px;
+  scroll-snap-align: start;
+}
+
+/* Listing card design */
 .listing-card {
   border: none;
-  border-radius: 15px;
+  border-radius: 18px;
   overflow: hidden;
   transition: 0.25s ease;
 }
 
 .listing-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 }
 
+/* Listing image */
 .listing-card img {
-  border-radius: 15px;
-  object-fit: cover;
+  height: 200px;
   width: 100%;
+  object-fit: cover;
+  border-radius: 18px;
 }
 
-/* Mobile image height */
-@media (max-width: 768px) {
-  .listing-card img {
-    height: 16rem;
-  }
-}
-
-/* Desktop image height */
-@media (min-width: 992px) {
-  .listing-card img {
-    height: 20rem;
-  }
-}
-
+/* Tax info hidden default */
 .tax-info {
   display: none;
-}
-
-/* ✅ IMPORTANT FIX: Listings should wrap properly */
-.row {
-  flex-wrap: wrap !important;
 }
 </style>
 
@@ -222,27 +228,27 @@
 
 </div>
 
-<!-- ================= LISTINGS GRID ================= -->
+<!-- ================= LISTINGS MULTI ROW SCROLL ================= -->
 
-<div class="container">
-  <div class="row g-4">
+<%
+  let chunkSize = 10;
+  for (let i = 0; i < allListings.length; i += chunkSize) {
+    let chunk = allListings.slice(i, i + chunkSize);
+%>
 
-    <% if (allListings.length === 0) { %>
-      <h4>No listings found.</h4>
-    <% } %>
+  <div class="listings-row">
 
-    <% for (let listing of allListings) { %>
+    <% for (let listing of chunk) { %>
 
-      <!-- ✅ Proper Bootstrap Columns -->
-      <div class="col-12 col-sm-6 col-lg-4">
+      <div class="listing-item">
 
-        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+        <a href="/listings/<%= listing._id %>"
+           class="text-decoration-none text-dark">
 
-          <div class="card listing-card h-100">
+          <div class="card listing-card">
 
             <img
               src="<%= listing.image?.url || '/images/default.jpg' %>"
-              class="card-img-top"
               alt="<%= listing.title %>"
             />
 
@@ -263,7 +269,8 @@
     <% } %>
 
   </div>
-</div>
+
+<% } %>
 
 <!-- ================= TAX SCRIPT ================= -->
 
