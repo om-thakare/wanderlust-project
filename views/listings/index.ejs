@@ -1,8 +1,6 @@
-<% layout("layouts/boilerplate") %> ✅
-
+<% layout("layouts/boilerplate") %>
 
 <style>
-
 /* ================= FILTER BAR ================= */
 
 #filters {
@@ -14,7 +12,7 @@
   scroll-behavior: smooth;
 }
 
-/* Mobile scroll */
+/* Mobile scroll ONLY for filters */
 @media (max-width: 768px) {
   #filters {
     flex-wrap: nowrap;
@@ -103,84 +101,109 @@
   display: none;
 }
 
+/* ✅ IMPORTANT FIX: Listings should wrap properly */
+.row {
+  flex-wrap: wrap !important;
+}
 </style>
-
 
 <!-- ================= FILTER SECTION ================= -->
 
-<div id="filters" class="mb-3">
+<div id="filters" class="mb-4">
 
-  <a href="/listings?category=Trending<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Trending -->
+  <a href="/listings?category=Trending<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Trending' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-fire"></i>
       <p>Trending</p>
     </div>
   </a>
 
-  <a href="/listings?category=Rooms<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Rooms -->
+  <a href="/listings?category=Rooms<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Rooms' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-bed"></i>
       <p>Rooms</p>
     </div>
   </a>
 
-  <a href="/listings?category=Iconic cities<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Iconic Cities -->
+  <a href="/listings?category=Iconic cities<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Iconic cities' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-mountain-city"></i>
-      <p>Iconic cities</p>
+      <p>Iconic</p>
     </div>
   </a>
 
-  <a href="/listings?category=Mountains<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Mountains -->
+  <a href="/listings?category=Mountains<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Mountains' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-mountain"></i>
       <p>Mountains</p>
     </div>
   </a>
 
-  <a href="/listings?category=Castles<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Castles -->
+  <a href="/listings?category=Castles<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Castles' ? 'active-filter' : '' %>">
       <i class="fa-brands fa-fort-awesome"></i>
       <p>Castles</p>
     </div>
   </a>
 
-  <a href="/listings?category=Amazing Pools<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Pools -->
+  <a href="/listings?category=Amazing Pools<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Amazing Pools' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-person-swimming"></i>
-      <p>Amazing Pools</p>
+      <p>Pools</p>
     </div>
   </a>
 
-  <a href="/listings?category=Farm<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Farm -->
+  <a href="/listings?category=Farm<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Farm' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-building-wheat"></i>
       <p>Farm</p>
     </div>
   </a>
 
-  <a href="/listings?category=Camping<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Camping -->
+  <a href="/listings?category=Camping<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Camping' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-tent"></i>
       <p>Camping</p>
     </div>
   </a>
 
-  <a href="/listings?category=Arctic<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Arctic -->
+  <a href="/listings?category=Arctic<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Arctic' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-igloo"></i>
       <p>Arctic</p>
     </div>
   </a>
 
-  <a href="/listings?category=Hiking<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Hiking -->
+  <a href="/listings?category=Hiking<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Hiking' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-person-hiking"></i>
       <p>Hiking</p>
     </div>
   </a>
 
-  <a href="/listings?category=Beach<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>" class="text-decoration-none text-dark">
+  <!-- Beach -->
+  <a href="/listings?category=Beach<%= searchQuery ? '&search=' + encodeURIComponent(searchQuery) : '' %>"
+     class="text-decoration-none text-dark">
     <div class="filter <%= selectedCategory === 'Beach' ? 'active-filter' : '' %>">
       <i class="fa-solid fa-umbrella-beach"></i>
       <p>Beach</p>
@@ -199,54 +222,59 @@
 
 </div>
 
+<!-- ================= LISTINGS GRID ================= -->
 
-<!-- ================= LISTINGS ================= -->
+<div class="container">
+  <div class="row g-4">
 
-<div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-3">
+    <% if (allListings.length === 0) { %>
+      <h4>No listings found.</h4>
+    <% } %>
 
-  <% if (allListings.length === 0) { %>
-    <h4>No listings found.</h4>
-  <% } %>
+    <% for (let listing of allListings) { %>
 
-  <% for (let listing of allListings) { %>
+      <!-- ✅ Proper Bootstrap Columns -->
+      <div class="col-12 col-sm-6 col-lg-4">
 
-    <div class="col">
-      <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
 
-        <div class="card listing-card h-100">
+          <div class="card listing-card h-100">
 
-          <img 
-            src="<%= listing.image?.url || '/images/default.jpg' %>" 
-            class="card-img-top"
-            alt="<%= listing.title %>"
-          />
+            <img
+              src="<%= listing.image?.url || '/images/default.jpg' %>"
+              class="card-img-top"
+              alt="<%= listing.title %>"
+            />
 
-          <div class="card-body">
-            <p class="card-text mb-0">
-              <b><%= listing.title %></b><br>
-              &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-              <span class="tax-info"> +18% GST</span>
-            </p>
+            <div class="card-body">
+              <p class="card-text mb-0">
+                <b><%= listing.title %></b><br>
+                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                <span class="tax-info"> +18% GST</span>
+              </p>
+            </div>
+
           </div>
 
-        </div>
+        </a>
 
-      </a>
-    </div>
+      </div>
 
-  <% } %>
+    <% } %>
 
+  </div>
 </div>
 
+<!-- ================= TAX SCRIPT ================= -->
 
 <script>
-const taxSwitch = document.getElementById("switchCheckDefault");
+  const taxSwitch = document.getElementById("switchCheckDefault");
 
-taxSwitch.addEventListener("click", () => {
-  const taxInfo = document.getElementsByClassName("tax-info");
+  taxSwitch.addEventListener("click", () => {
+    const taxInfo = document.getElementsByClassName("tax-info");
 
-  for (let info of taxInfo) {
-    info.style.display = taxSwitch.checked ? "inline" : "none";
-  }
-});
+    for (let info of taxInfo) {
+      info.style.display = taxSwitch.checked ? "inline" : "none";
+    }
+  });
 </script>

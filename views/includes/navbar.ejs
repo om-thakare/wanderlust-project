@@ -108,8 +108,14 @@
     cursor: pointer;
   }
 
+  /* ✅ Hide hamburger by default (desktop) */
+  .hamburger-btn {
+    display: none;
+  }
+
   /* ================= MOBILE ================= */
   @media (max-width: 768px) {
+
     /* Hide desktop nav sections */
     .nav-left,
     .nav-right {
@@ -123,7 +129,7 @@
       gap: 10px;
     }
 
-    /* Hamburger button */
+    /* ✅ Show hamburger ONLY on mobile */
     .hamburger-btn {
       display: flex;
       flex-direction: column;
@@ -174,6 +180,7 @@
   }
 </style>
 
+<!-- ================= NAVBAR HTML ================= -->
 <nav class="navbar sticky-top">
   <div class="container-fluid navbar-container">
 
@@ -188,7 +195,7 @@
     <!-- CENTER SEARCH + HAMBURGER FOR MOBILE -->
     <div class="search-wrapper">
 
-      <!-- Hamburger for mobile -->
+      <!-- ✅ Hamburger (mobile only) -->
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span>
         <span></span>
@@ -228,7 +235,7 @@
       <% } %>
     </div>
 
-    <!-- MOBILE MENU -->
+    <!-- ✅ MOBILE MENU -->
     <div id="mobileMenu" class="mobile-menu">
       <a href="/listings/new">Airbnb your home</a>
 
@@ -245,6 +252,7 @@
   </div>
 </nav>
 
+<!-- ================= SCRIPT ================= -->
 <script>
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const mobileMenu = document.getElementById("mobileMenu");
